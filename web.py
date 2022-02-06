@@ -3,7 +3,7 @@ from PIL import Image
 import json
 from Classifier import KNearestNeighbours
 from bs4 import BeautifulSoup
-import requests,io
+import requests, io
 import PIL.Image
 from urllib.request import urlopen
 
@@ -12,8 +12,9 @@ with open('./Data/movie_data.json', 'r+', encoding='utf-8') as f:
 with open('./Data/movie_titles.json', 'r+', encoding='utf-8') as f:
     movie_titles = json.load(f)
 
+
 def movie_poster_fetcher(imdb_link):
-    ## Display Movie Poster
+    # Display Movie Poster
     url_data = requests.get(imdb_link).text
     s_data = BeautifulSoup(url_data, 'html.parser')
     imdb_dp = s_data.find("meta", property="og:image")
@@ -24,6 +25,7 @@ def movie_poster_fetcher(imdb_link):
     image = image.resize((158, 301), )
     st.image(image, use_column_width=False)
 
+
 def get_movie_info(imdb_link):
     url_data = requests.get(imdb_link).text
     s_data = BeautifulSoup(url_data, 'html.parser')
@@ -32,14 +34,15 @@ def get_movie_info(imdb_link):
     movie_descr = str(movie_descr).split('.')
     movie_director = movie_descr[0]
     movie_cast = str(movie_descr[1]).replace('With', 'Cast: ').strip()
-    movie_story = 'Story: ' + str(movie_descr[2]).strip()+'.'
+    movie_story = 'Story: ' + str(movie_descr[2]).strip() + '.'
     rating = s_data.find("div", class_="AggregateRatingButton__TotalRatingAmount-sc-1ll29m0-3 jkCVKJ")
     rating = str(rating).split('<div class="AggregateRatingButton__TotalRatingAmount-sc-1ll29m0-3 jkCVKJ')
     rating = str(rating[1]).split("</div>")
     rating = str(rating[0]).replace(''' "> ''', '').replace('">', '')
 
-    movie_rating = 'Total Rating count: '+ rating
-    return movie_director,movie_cast,movie_story,movie_rating
+    movie_rating = 'Total Rating count: ' + rating
+    return movie_director, movie_cast, movie_story, movie_rating
+
 
 def KNN_Movie_Recommender(test_point, k):
     # Create dummy target variable for the KNN Classifier
@@ -52,13 +55,15 @@ def KNN_Movie_Recommender(test_point, k):
     table = []
     for i in model.indices:
         # Returns back movie title and imdb link
-        table.append([movie_titles[i][0], movie_titles[i][2],data[i][-1]])
+        table.append([movie_titles[i][0], movie_titles[i][2], data[i][-1]])
     print(table)
     return table
 
+
 st.set_page_config(
-   page_title="M.R System",
+    page_title="M.R System",
 )
+
 
 def run():
     image = Image.open('film.png')
@@ -75,8 +80,8 @@ def run():
     if cat_op == category[0]:
         st.warning('Please select Recommendation Type!!')
     elif cat_op == category[1]:
-        select_movie = st.selectbox('Select movie: (Recommendation will be based on this selection)', ['--Select--'] + movies)
-
+        select_movie = st.selectbox('Select movie: (Recommendation will be based on this selection)',
+                                    ['--Select--'] + movies)
 
         if select_movie == '--Select--':
             st.warning('Please select Movie!!')
