@@ -66,7 +66,7 @@ st.set_page_config(
 
 
 def run():
-    image = Image.open('film.png')
+    image = Image.open('filmy.jpg')
 
     st.image(image)
     st.title("Movies Recommender System")
@@ -76,7 +76,8 @@ def run():
               'Reality-TV', 'Romance', 'Sci-Fi', 'Short', 'Sport', 'Thriller', 'War', 'Western']
     movies = [title[0] for title in movie_titles]
     category = ['--Select--', 'Movie based', 'Genre based']
-    cat_op = st.selectbox('Select Recommendation Type', category)
+    cat_op = st.selectbox('Recommendation Type', category)
+
     if cat_op == category[0]:
         st.warning('Please select Recommendation Type!!')
     elif cat_op == category[1]:
