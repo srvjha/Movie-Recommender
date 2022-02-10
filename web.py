@@ -87,7 +87,7 @@ def run():
         if select_movie == '--Select--':
             st.warning('Please select Movie!!')
         else:
-            no_of_reco = (5)
+            no_of_reco = 5
             genres = data[movies.index(select_movie)]
             test_points = genres
             table = KNN_Movie_Recommender(test_points, no_of_reco + 1)
@@ -110,7 +110,7 @@ def run():
 
         if sel_gen:
             imdb_score = st.slider('Choose IMDb score:', 1, 10, 8)
-            no_of_reco = st.number_input('Number of movies:', min_value=5, max_value=20, step=1)
+            no_of_reco = 5
             test_point = [1 if genre in sel_gen else 0 for genre in genres]
             test_point.append(imdb_score)
             table = KNN_Movie_Recommender(test_point, no_of_reco)
